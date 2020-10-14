@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=16
+#PBS -m ae
+#PBS -j eo
+#PBS -N HiCpro_s1_PDX
+#PBS -q workq
+#PBS -V
+#PBS -J 1-4
+
+cd $PBS_O_WORKDIR
+
+i=$(expr $PBS_ARRAY_INDEX - 1)
+
+rawdatafiles=$PBS_O_WORKDIR/inputfiles_PDX.txt
+
+readarray fileToRun < $rawdatafiles
+
+sample=${fileToRun[$i]}
+
+echo $sample > $(basename $sample .fastq.gz)"_PDX.txt"
+
+FASTQFILE=$(basename $sample .fastq.gz)"_PDX.txt"; export FASTQFILE
+
+#-------------------
+
+MAKEFILE_=/PATHTO/HiC-Pro/scripts/Makefile
+CONFIG_FILE_=/PATHTO/config_hicpro_hg38.txt
+CONFIG_SYS_=/PATHTO/HiC-Pro/config-system.txt
+
+#-------------------
+
+make --file ${MAKEFILE_} CONFIG_FILE=${CONFIG_FILE_} CONFIG_SYS=${CONFIG_SYS_} all_sub 2>&1

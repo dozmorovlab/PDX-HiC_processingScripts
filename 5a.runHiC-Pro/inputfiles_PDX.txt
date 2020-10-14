@@ -1,0 +1,2 @@
+PATHTO/Sample1_R1.fastq.gz
+PATHTO/Sample2_R1.fastq.gz

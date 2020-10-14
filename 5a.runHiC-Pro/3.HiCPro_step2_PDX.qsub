@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=1
+#PBS -m ae
+#PBS -j eo
+#PBS -N HiCpro_s2_PDX
+#PBS -q workq
+#PBS -V
+
+
+MAKEFILE_=/PATHTO/HiC-Pro/scripts/Makefile
+CONFIG_FILE_=/PATHTO/config_hicpro_hg38.txt
+CONFIG_SYS_=/PATHTO/HiC-Pro/config-system.txt
+
+cd $PBS_O_WORKDIR
+make --file ${MAKEFILE_} CONFIG_FILE=${CONFIG_FILE_} CONFIG_SYS=${CONFIG_SYS_} all_persample 2>&1
